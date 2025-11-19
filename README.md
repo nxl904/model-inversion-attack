@@ -23,7 +23,9 @@ This simulation consists of 4 distinct phases and associated code buckets for re
 3. Running the attack
 4. Evaluation and analysis
 
-#Phase 1: Building a vulnerable AI 
+#Phase 1
+
+Building a vulnerable AI 
 For the first phase we will prepare the victim system for the attack. Our objective in this phase is to create a confident AI model that has memorized sensitive data. 
 
 
