@@ -27,9 +27,7 @@ This simulation consists of 4 distinct phases and associated code buckets for re
 
 We will be using the following python libraries and associated technologies to accomplish this: 
 
-**tensorflow:** deep-learning framework used to compile and build the DNN. tensorflow is essentially a machine-learning engine 
-
-**keras:** tensforflows high-level API 
+**tensorflow/keras:** deep-learning framework used to compile and build the DNN. tensorflow is essentially a machine-learning engine 
 
 **numpy:** python's numerical computing library, used to create synthetic MFCC feature vectors. It's being used in this context to generate and manipulate the simulated dataset
 
@@ -40,6 +38,8 @@ We will be using the following python libraries and associated technologies to a
 # Methods used
 
 **MFCC (Mel-Frequency Cepstral Coefficients):** audio feature used in speech/speaker recognition
+
+**ReLu:** Math fucition used inside the model to help it learn patterns
 
 **One-Hot Encoding:** Categorical Labels, coverts numeric class ID's into one-hot vectors. Used for training classification models
 
@@ -64,7 +64,16 @@ to build the vulnerable (target) AI model.
 Since this is a simulation for academic purposes, we will create random data to mimic Mel-Frequency Cepstral Coefficient (MFCC) features. MFCC is a feature extraction process that turns complex sound waves into numeric values. Essentially, MFCC is 
 being used in this context to be the numerical representation of a voice. Once we have the MFCC dataset parameters we will train a Deep Neural Network (DNN - a type of broader AI ) that can identify the voices (MFCC values) that we generated in step 1. 
 
+Technologies used: 
+**TensorFlow/Keras:** trains and builds the neural network
+**NumPy:** creates fake MFCC data
 
+Methods used (what's being done): 
+**MFCC simulation:** pretends to have human voice features
+**Label encoding:** turns the users IDs into 0/1 vectors
+**Neuarl network creation:** building a simple DNN that can tell users aparat
+**Model training:** teaching the victim model which MFCCs belong to which user 
+**Selection of target user:** picks user 5 (random) as a the person that we will "attack"
 
 
 ```python
