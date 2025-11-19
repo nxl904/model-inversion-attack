@@ -210,6 +210,74 @@ print("Phase II: Optimization Setup Complete. Ready to execute MFCC inversion at
 #Phase II: Optimization Setup Complete. Ready to execute MFCC inversion attack.
 ```
 
+# Phase 3 - Running the Attack 
+
+**Technologies used in Phase 3**
+
+*TensorFlow GradientTape:* computes how to change vector
+*TensorFlow optimiziers:* applies the gradient updates
+*TensforFlow loss functions:* calculates proximity to target
+
+**Methods used in Phase 3**
+
+*Confidence loss:* pushes fake MFCC to make the model say: "This is User 5."
+*Regularization (L2 penalty):* prevents the fake vector from becoming unrealistic
+*Loss function combination:* Mixes "look like User 5" with "stay realistic
+*Gradient descent on the input:* instead of training the model, you "train the input vector" to fool it. 
+*Iterative optimization:* Slowly updade the fake MFCC thousands of times until it mimics User 5. 
+*Reconstruction output:* Final optimized MFCC vector 
+
+```python
+#Phase 3: Core Attack (Iterative Reconstruction)
+
+# --- Step 6: Define Loss Function (L) ---
+def loss_fn(model, x, y_target, regularization_weight):
+    # Confidence Loss: Forces the input towards the target class
+    confidence_loss = tf.keras.losses.categorical_crossentropy(y_target, model(x))
+    
+    # Prior Loss (Regularization): Keeps the feature vector values constrained
+    prior_loss = tf.norm(x) # L2 norm on the input vector
+    
+    total_loss = confidence_loss + (regularization_weight * prior_loss)
+    return total_loss
+
+# --- Steps 7, 8, & 9: Optimization Loop ---
+print("Phase III: Starting Iterative Reconstruction (MFCC Optimization)...")
+
+for k in range(MAX_ITERATIONS):
+    # Step 7: Calculate Gradient (using GradientTape)
+    with tf.GradientTape() as tape:
+        tape.watch(x_rand)
+        L = loss_fn(model, x_rand, y_target, REGULARIZATION_WEIGHT)
+    
+    gradient = tape.gradient(L, x_rand)
+    
+    # Step 8: Update Input (Optimization Step)
+    optimizer.apply_gradients([(gradient, x_rand)])
+    
+    # Optional Progress Print
+    if (k + 1) % 1000 == 0:
+        print(f"Iteration {k+1}/{MAX_ITERATIONS}, Loss: {L.numpy().mean():.4f}")
+
+x_reconstructed_vector = x_rand.numpy().squeeze()
+print("Phase III: MFCC Feature Vector Reconstruction Complete.")
+
+```
+
+# Phase 3 Output: 
+
+```python
+
+'''Phase III: Starting Iterative Reconstruction (MFCC Optimization)...
+Iteration 1000/5000, Loss: 0.0254
+Iteration 2000/5000, Loss: 0.0254
+Iteration 3000/5000, Loss: 0.0254
+Iteration 4000/5000, Loss: 0.0254
+Iteration 5000/5000, Loss: 0.0254
+Phase III: MFCC Feature Vector Reconstruction Complete.'''
+
+```
+
 
 
 
