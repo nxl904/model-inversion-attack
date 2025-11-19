@@ -205,7 +205,7 @@ optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
 print("Phase II: Optimization Setup Complete. Ready to execute MFCC inversion attack.")
 ```
 
-#Output of Phase 2
+# Output of Phase 2
 ```python
 #Phase II: Optimization Setup Complete. Ready to execute MFCC inversion attack.
 ```
