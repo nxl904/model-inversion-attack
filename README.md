@@ -1,2 +1,2 @@
-# model-inversion-attack
+# model-inversion-attack-simulation
 model-inversion-attack
