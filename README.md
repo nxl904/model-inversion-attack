@@ -18,10 +18,10 @@ The result is a cloned voice feature vector that can be turned into a playable a
 
 This simulation consists of 4 distinct phases and associated code buckets for reference. The phases are as follows: 
 
-1. Building a vulnerable AI
-2. Preparing the attack tool
-3. Running the attack
-4. Evaluation and analysis
+1. Building a vulnerable AI : trains a voice-recognition model
+2. Preparing the attack tool: sets up an attack by creating a random vector 
+3. Running the attack: tweaks that random vector (phase 2) until the model thinks it's User 5
+4. Evaluation and analysis: checks if the attack worked and compares orginal vs reconstructed features
 
 # Technologies used 
 
@@ -264,7 +264,7 @@ print("Phase III: MFCC Feature Vector Reconstruction Complete.")
 
 ```
 
-# Phase 3 Output: 
+# Phase 3 Output
 
 ```python
 
@@ -277,6 +277,82 @@ Iteration 5000/5000, Loss: 0.0254
 Phase III: MFCC Feature Vector Reconstruction Complete.'''
 
 ```
+
+# Phase 4 Evaluation & Analysis
+
+This phase confirm the attack was succussful. We will seek to verify the reconstructued features are accurate and take the output MFCC and translate it to a voice. The intention being the end result is a playable voice that could be 
+used in a nafarious authorization. 
+
+
+**Technologies used in Phase 4**
+
+*Matplotlib:* draws the comparison chart
+
+*NumPy:* reshapes the reconstructed vector for prediction 
+
+*TensorFlow:* runs the prediction 
+
+**Methods used in Phase 4**
+
+*Plotting orginal vs reconstructed MFCC:* This is a visual check to see if they look similiar
+
+*Confidence check:* We ask the victim model "Do you think this new vector is User 5?"
+
+*Attack success test:* If the model gives >90% confidence AND selects User 5 = success
+
+```python
+#Phase 4: Evaluation & analysis
+
+# --- Step 10: Visualize Fidelity (Conceptual) ---
+# Since this is a high-dimensional vector, we plot the values.
+plt.figure(figsize=(10, 4))
+plt.plot(x_true, label='Original MFCC Vector (x_true)', alpha=0.7)
+plt.plot(x_reconstructed_vector, label='Reconstructed MFCC Vector (x*)', linestyle='--', alpha=0.7)
+plt.title(f"Comparison of Original vs. Reconstructed MFCC Vectors for User ID {target_class_id}")
+plt.xlabel("Feature Index")
+plt.ylabel("MFCC Value (Amplitude)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# --- Step 11: Verify Model Confidence ---
+# Check what the target model (F) predicts for the reconstructed vector
+x_check = np.expand_dims(x_reconstructed_vector, axis=0)
+predictions = model.predict(x_check, verbose=0)
+confidence = predictions[0, target_class_id] * 100
+max_conf_class = np.argmax(predictions)
+
+print(f"\nPhase IV: Model Confidence Check")
+print(f"Target Class ID: {target_class_id}")
+print(f"Model's highest prediction: Class {max_conf_class}")
+print(f"Model Confidence in Target Class for x*: {confidence:.2f}%")
+
+# --- Step 12: Synthesis Step (Conceptual) ---
+if confidence > 90 and max_conf_class == target_class_id:
+    print("\nAttack Successful! The reconstructed vector is highly confident for the target user.")
+    print("Next step is to feed the x* vector into a VOCDER for voice synthesis.")
+else:
+    print("\nAttack failed or needs more iteration/tuning.")
+```
+# Output of Phase 4 
+
+<img width="1216" height="551" alt="image" src="https://github.com/user-attachments/assets/1112f847-de21-4321-91de-c8ac02e0c31d" />
+
+
+```python
+'''
+Phase IV: Model Confidence Check
+Target Class ID: 5
+Model's highest prediction: Class 5
+Model Confidence in Target Class for x*: 99.70%
+
+Attack Successful! The reconstructed vector is highly confident for the target user.
+Next step is to feed the x* vector into a VOCDER for voice synthesis.
+'''
+```
+
+
+
 
 
 
