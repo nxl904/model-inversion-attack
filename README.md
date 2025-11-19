@@ -35,7 +35,21 @@ We will be using the following python libraries and associated technologies to a
 
 **scikit-learn:** python's machine-learning utility toolkit
 
-**matplotlib:** python's plotting library. It will 
+**matplotlib:** python's plotting library. It will be used to split data into training/testing sets
+
+# Methods used
+
+**MFCC (Mel-Frequency Cepstral Coefficients):** audio feature used in speech/speaker recognition
+
+**One-Hot Encoding:** Categorical Labels, coverts numeric class ID's into one-hot vectors. Used for training classification models
+
+**Deep Neural Network (DNN):**  Takes MFCC vectors as inputs, and predicts which speaker the voice belongs to. 
+
+**Softmax Classification:** Turns raw scores into probabilities acorss 10 voice samples (MFCC vectors) 
+
+**Adam Optimizer:** Updates the DNN's weights while training
+
+**Categorical Cross-Entropy Loss:** Measures how far the model's predictions are from the true speaker labels
 
 
 # Phase 1: Building a vulnerable AI 
