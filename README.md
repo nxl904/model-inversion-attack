@@ -3,7 +3,7 @@
 In this simlulation we will be replicating simple Model Inversion Attack (MIA). The simulated attack will be against a basic Convolutional Nueral Network (CNN) that we will train using publically available NIST data. This CNN will represent 
 a institutions Intelligent Voice Recognition (IVR) phone tree. 
 
-This is done for illustration academic purposes using publically available data to better understand how MIA's work and how to implement basic defenses to mitigate them. 
+This simulation is being done for academic purposes using publically available data to better understand how MIA's work and how to implement basic defenses to mitigate them. 
 
 # Scenario
 Imagine a bank's IVR system uses your unique voiceprint (like a fingerprint, but for your voice) to authenticate you.
